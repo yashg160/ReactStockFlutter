@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:react_stock_flutter/MainScreen.dart';
 
 void main() => runApp(Home());
 
@@ -30,6 +31,7 @@ class HomeState extends State<Home> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     if (isLoggedIn) {
       Navigator.pushReplacement(
@@ -44,27 +46,5 @@ class HomeState extends State<Home> {
         ),
       ));
     }
-  }
-}
-
-class MainScreen extends StatefulWidget {
-  MainScreenState createState() => MainScreenState();
-}
-
-class MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget build(BuildContext context) {
-    return (Scaffold(
-      appBar: AppBar(
-        title: Text('Main Screen'),
-      ),
-      body: Center(
-        child: Text('This is min screen'),
-      ),
-    ));
   }
 }
