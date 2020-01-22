@@ -56,15 +56,18 @@ class SignInState extends State<SignIn> {
       // If error, then throw an exception, which will be handled by the calling function
       if (!data['error'])
         return UserProfile.fromJson(data['profile']);
-      else
+      else {
+        _errMessage = data['errorMessage'];
         throw Exception(data['errorMessage']);
+      }
     } else {
       // Status code was not 200, means something was not ok. So throw an exception with ERR_SERVER
+      _errMessage = 'ERR_SERVER';
       throw Exception('ERR_SERVER');
     }
   }
 
-  handleSignIn() {
+  handleSignIn(context) {
     setState(() {
       _loading = true;
       _error = false;
@@ -74,9 +77,7 @@ class SignInState extends State<SignIn> {
     signInUser().then((user) {
       // The user was found and the profile was retrieved. Save some values to storage and move to main screen
       // Set the loading variable to false, to stop the modal from displaying. Then do the required actions.
-      setState(() {
-        _loading = false;
-      });
+      setState(() => _loading = false);
     }).catchError((error) {
       // Set the loading variable to false, to stop the modal from displaying. Then do the required error handling.
       setState(() {
@@ -84,6 +85,15 @@ class SignInState extends State<SignIn> {
         _error = true;
       });
       print(error);
+
+      //Handle the errors and pass the error message to the snackabar.
+
+      if (_errMessage == 'ERR_FIND_USER')
+        _showToast(context, 'Error in communicating with server.');
+      else if (_errMessage == 'ERR_EMAIL')
+        _showToast(context, 'No account found. Please try again');
+      else
+        _showToast(context, 'An error occurred. Please try again');
     });
   }
 
@@ -94,7 +104,18 @@ class SignInState extends State<SignIn> {
 
   final emailFieldController = TextEditingController();
 
-  Widget _mainForm() {
+  void _showToast(BuildContext context, String message) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: new Text(message),
+        action: SnackBarAction(
+            label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
+
+  Widget _mainForm(BuildContext context) {
     return (Scaffold(
       body: Center(
           child: Container(
@@ -125,7 +146,7 @@ class SignInState extends State<SignIn> {
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 elevation: 32,
-                onPressed: () => handleSignIn(),
+                onPressed: () => handleSignIn(context),
               ),
             ),
           ],
@@ -138,16 +159,17 @@ class SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     print(_loading);
     return (Scaffold(
-      appBar: AppBar(
-        title: Text('Sign In'),
-      ),
-      body: ModalProgressHUD(
-        child: _mainForm(),
-        inAsyncCall: _loading,
-        opacity: 0.9,
-        progressIndicator: CircularProgressIndicator(),
-      ),
-    ));
+        appBar: AppBar(
+          title: Text('Sign In'),
+        ),
+        body: Builder(
+          builder: (context) => ModalProgressHUD(
+            child: _mainForm(context),
+            inAsyncCall: _loading,
+            opacity: 0.9,
+            progressIndicator: CircularProgressIndicator(),
+          ),
+        )));
   }
 
   @override
