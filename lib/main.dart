@@ -91,7 +91,7 @@ class HomePage extends StatelessWidget {
               autofocus: false,
               clipBehavior: Clip.none,
               child: Text(
-                'Sign Up',
+                'Sign In',
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               elevation: 32,
