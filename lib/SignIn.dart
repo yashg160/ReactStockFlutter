@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile {
   final String givenName;
@@ -67,6 +68,17 @@ class SignInState extends State<SignIn> {
     }
   }
 
+  saveUserData(user) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('USER_ID', user.getEmail());
+    await prefs.setString('USER_IMAGE', user.getImageUrl());
+    await prefs.setString('USER_GIVEN_NAME', user.getGivenName());
+    await prefs.setString('USER_FAMILY_NAME', user.getFamilyName());
+
+    return;
+  }
+
   handleSignIn(context) {
     setState(() {
       _loading = true;
@@ -74,10 +86,13 @@ class SignInState extends State<SignIn> {
       _errMessage = null;
     });
 
-    signInUser().then((user) {
-      // The user was found and the profile was retrieved. Save some values to storage and move to main screen
+    /* // The user was found and the profile was retrieved. Save some values to storage and move to main screen
       // Set the loading variable to false, to stop the modal from displaying. Then do the required actions.
-      setState(() => _loading = false);
+      setState(() => _loading = false); */
+
+    signInUser().then((user) => saveUserData(user)).then((response) {
+      //User was found and data was saved to local storage. Move to the main screen
+      print('Done');
     }).catchError((error) {
       // Set the loading variable to false, to stop the modal from displaying. Then do the required error handling.
       setState(() {
