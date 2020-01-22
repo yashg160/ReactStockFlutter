@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class UserProfile {
   final String givenName;
@@ -39,9 +40,9 @@ class SignIn extends StatefulWidget {
 }
 
 class SignInState extends State<SignIn> {
-  bool loading = false;
-  bool error = false;
-  String errMessage;
+  bool _loading = false;
+  bool _error = false;
+  String _errMessage;
 
   signInUser() async {
     //Get the data from the API
@@ -65,17 +66,23 @@ class SignInState extends State<SignIn> {
 
   handleSignIn() {
     setState(() {
-      loading = true;
-      error = false;
-      errMessage = null;
+      _loading = true;
+      _error = false;
+      _errMessage = null;
     });
 
     signInUser().then((user) {
-      print(user.getFamilyName());
-      print(user.getGivenName());
-      print(user.getImageUrl());
-      print(user.getEmail());
+      // The user was found and the profile was retrieved. Save some values to storage and move to main screen
+      // Set the loading variable to false, to stop the modal from displaying. Then do the required actions.
+      setState(() {
+        _loading = false;
+      });
     }).catchError((error) {
+      // Set the loading variable to false, to stop the modal from displaying. Then do the required error handling.
+      setState(() {
+        _loading = false;
+        _error = true;
+      });
       print(error);
     });
   }
@@ -87,12 +94,8 @@ class SignInState extends State<SignIn> {
 
   final emailFieldController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _mainForm() {
     return (Scaffold(
-      appBar: AppBar(
-        title: Text('Sign In'),
-      ),
       body: Center(
           child: Container(
         padding: EdgeInsets.only(top: 48, left: 24, right: 24),
@@ -124,10 +127,26 @@ class SignInState extends State<SignIn> {
                 elevation: 32,
                 onPressed: () => handleSignIn(),
               ),
-            )
+            ),
           ],
         ),
       )),
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(_loading);
+    return (Scaffold(
+      appBar: AppBar(
+        title: Text('Sign In'),
+      ),
+      body: ModalProgressHUD(
+        child: _mainForm(),
+        inAsyncCall: _loading,
+        opacity: 0.9,
+        progressIndicator: CircularProgressIndicator(),
+      ),
     ));
   }
 
