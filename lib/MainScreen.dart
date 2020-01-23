@@ -170,10 +170,32 @@ class MainScreenState extends State<MainScreen> {
               appBar: AppBar(
                 title: Text('ReactStock'),
               ),
-              body: Container(
-                child: Center(
-                  child: Text('No error'),
-                ),
+              body: ListView(
+                padding: EdgeInsets.all(8),
+                children: _pictures.map((picture) {
+                  return Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 250,
+                          width: MediaQuery.of(context).size.width,
+                          child: Card(
+                            child: Image.memory(picture.getContent(),
+                                fit: BoxFit.fill),
+                            elevation: 12,
+                            margin: EdgeInsets.only(top: 24),
+                          ),
+                        ),
+                        Container(
+                          child: Text(picture.getTitle(),
+                              style: TextStyle(fontSize: 24)),
+                          margin: EdgeInsets.only(top: 4),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ),
