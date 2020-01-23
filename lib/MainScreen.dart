@@ -58,19 +58,13 @@ class MainScreenState extends State<MainScreen> {
         _error = true;
       });
       print(error.toString());
-
-      // Based on the state _errorMessage, show the snackbar with appropriate message
-
-      if (_errMessage == 'ERR_PICTURES')
-        _showToast(_context, 'Error in communicating with server.');
-      else
-        _showToast(_context, 'An error occurred. Please try again');
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _handleGetPictures();
   }
 
   void _showToast(BuildContext context, String message) {
@@ -87,26 +81,62 @@ class MainScreenState extends State<MainScreen> {
   Widget _mainContent(BuildContext context) {
     return (Scaffold(
       appBar: AppBar(
-        title: Text('Main Screen'),
+        title: Text('ReactStock'),
       ),
       body: Center(
-        child: Text('This is min screen'),
+        child: Text('Data was retrived. No error'),
       ),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
-    _handleGetPictures();
-    return (Scaffold(
-        body: Builder(
-      builder: (context) => ModalProgressHUD(
-        child: _mainContent(context),
-        inAsyncCall: _loading,
-        opacity: 0.9,
-        progressIndicator: CircularProgressIndicator(),
-      ),
-    )));
+    if (_error) {
+      _showToast(context, 'An error occurred');
+      return (Scaffold(
+        appBar: AppBar(
+          title: Text('ReactStock'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: RaisedButton(
+                  child: Text('RETRY'),
+                  autofocus: false,
+                  clipBehavior: Clip.none,
+                  elevation: 24,
+                  onPressed: () {
+                    print('Retry Pressed');
+                  },
+                ),
+              ),
+              Container(
+                child: Text('An error occurred. Please try again.'),
+              )
+            ],
+          ),
+        ),
+      ));
+    } else {
+      return (Scaffold(
+          body: Builder(
+        builder: (context) => ModalProgressHUD(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('ReactStock'),
+            ),
+            body: Center(
+              child: Text('Data was retrived. No error'),
+            ),
+          ),
+          inAsyncCall: _loading,
+          opacity: 0.9,
+          progressIndicator: CircularProgressIndicator(),
+        ),
+      )));
+    }
   }
 }
