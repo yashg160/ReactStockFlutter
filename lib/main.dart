@@ -38,6 +38,7 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     if (isLoggedIn) {
+      print('User Logged In');
       return (MaterialApp(
         routes: <String, WidgetBuilder>{
           '/home': (context) => HomeScreen(),
@@ -48,11 +49,13 @@ class AppState extends State<App> {
         home: MainScreen(),
       ));
     } else {
+      print('User Not Logged In');
       return (MaterialApp(routes: <String, WidgetBuilder>{
+        '/': (context) => HomeScreen(),
         '/main': (context) => MainScreen(),
         '/signup': (context) => SignIn(),
         '/profile': (context) => ProfileScreen()
-      }, home: HomeScreen()));
+      }));
     }
   }
 }

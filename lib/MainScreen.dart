@@ -156,7 +156,7 @@ class MainScreenState extends State<MainScreen> {
   void _handleChoiceSelect(CustomPopupMenu choice, BuildContext context) {
     if (choice.action == 'ACTION_SIGN_OUT') {
       this.signUserOut(choice, context).then((status) {
-        Navigator.popAndPushNamed(context, '/home');
+        Navigator.popAndPushNamed(context, '/');
       }).catchError((error) {
         print(error.toString());
       });

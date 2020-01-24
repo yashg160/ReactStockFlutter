@@ -7,48 +7,47 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: DecoratedBox(
         decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/home.jpg"), fit: BoxFit.cover),
+          color: Colors.black.withOpacity(0.8),
         ),
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          textDirection: TextDirection.ltr,
           children: <Widget>[
+            Text(
+              'ReactStock',
+              style: TextStyle(fontSize: 40, color: Colors.white),
+            ),
+            SizedBox(
+              height: 12,
+            ),
             Container(
-              margin: EdgeInsets.only(bottom: 32),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                textDirection: TextDirection.ltr,
-                children: <Widget>[
-                  Text(
-                    'ReactStock',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 42,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    'Share the world around you. Through images.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 26),
-                  )
-                ],
+              padding: EdgeInsets.only(left: 16, right: 16),
+              child: Text(
+                'Share the world around you. Through pictures.',
+                style: TextStyle(fontSize: 22, color: Colors.white),
+                textAlign: TextAlign.center,
               ),
             ),
-            RaisedButton(
-              autofocus: false,
-              clipBehavior: Clip.none,
-              child: Text(
-                'Sign In',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            SizedBox(
+              height: 72,
+            ),
+            Container(
+              height: 48,
+              width: 140,
+              child: RaisedButton(
+                child: Text(
+                  'SIGN IN',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                color: Colors.red,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+                elevation: 24,
+                onPressed: () {
+                  Navigator.pushNamed(context, "/signup");
+                },
               ),
-              elevation: 32,
-              onPressed: () {
-                Navigator.pushNamed(context, "/signup");
-              },
             )
           ],
         )),
