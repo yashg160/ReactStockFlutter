@@ -25,6 +25,13 @@ class Picture {
   }
 }
 
+class CustomPopupMenu {
+  CustomPopupMenu({this.title, this.action});
+
+  String title;
+  String action;
+}
+
 class MainScreen extends StatefulWidget {
   MainScreenState createState() => MainScreenState();
 }
@@ -34,6 +41,7 @@ class MainScreenState extends State<MainScreen> {
   bool _error = false;
   String _errMessage = '';
   List _pictures = [];
+  CustomPopupMenu _selectedChoice;
 
   _getPictures() async {
     var response = await http.get('http://10.102.113.91:8000/picture?num=10');
@@ -128,6 +136,16 @@ class MainScreenState extends State<MainScreen> {
     );
   }
 
+  List<CustomPopupMenu> choices = <CustomPopupMenu>[
+    CustomPopupMenu(title: 'Sign Out', action: 'ACTION_SIGN_OUT'),
+  ];
+
+  void _select(CustomPopupMenu choice) {
+    setState(() {
+      _selectedChoice = choice;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_error) {
@@ -169,16 +187,31 @@ class MainScreenState extends State<MainScreen> {
             child: Scaffold(
               appBar: AppBar(
                 title: Text('ReactStock'),
+                actions: <Widget>[
+                  PopupMenuButton<CustomPopupMenu>(
+                    elevation: 4,
+                    initialValue: choices[0],
+                    onCanceled: () => print('Selection cancelled'),
+                    tooltip: 'This is the tooltip',
+                    onSelected: _select,
+                    itemBuilder: (BuildContext contextSome) {
+                      return choices.map((CustomPopupMenu choice) {
+                        return PopupMenuItem<CustomPopupMenu>(
+                          value: choice,
+                          child: Text(choice.title),
+                        );
+                      }).toList();
+                    },
+                  )
+                ],
               ),
               body: ListView(
-                padding: EdgeInsets.all(8),
                 children: _pictures.map((picture) {
                   return Container(
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.all(8),
-                          height: 250,
+                          height: 280,
                           width: MediaQuery.of(context).size.width,
                           child: Card(
                             child: Image.memory(picture.getContent(),
@@ -189,8 +222,9 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(picture.getTitle(),
-                              style: TextStyle(fontSize: 24)),
-                          margin: EdgeInsets.only(top: 4),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w700)),
+                          margin: EdgeInsets.only(top: 8),
                         ),
                       ],
                     ),
