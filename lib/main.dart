@@ -41,9 +41,14 @@ class AppState extends State<App> {
       print('User Logged In');
       return (MaterialApp(
         theme: ThemeData(
-          primaryColor: Color(0xfff2291b),
-          accentColor: Colors.black.withOpacity(0.8),
-        ),
+            primaryColor: Color(0xfff2291b),
+            accentColor: Colors.black.withOpacity(0.8),
+            fontFamily: 'Montserrat',
+            textTheme: TextTheme(
+                headline: TextStyle(fontFamily: 'Montserrat'),
+                title: TextStyle(fontFamily: 'Montserrat'),
+                body1: TextStyle(fontFamily: 'Montserrat'),
+                body2: TextStyle(fontFamily: 'Montserrat'))),
         routes: <String, WidgetBuilder>{
           '/home': (context) => HomeScreen(),
           '/main': (context) => MainScreen(),
@@ -54,12 +59,22 @@ class AppState extends State<App> {
       ));
     } else {
       print('User Not Logged In');
-      return (MaterialApp(routes: <String, WidgetBuilder>{
-        '/': (context) => HomeScreen(),
-        '/main': (context) => MainScreen(),
-        '/signup': (context) => SignIn(),
-        '/profile': (context) => ProfileScreen()
-      }));
+      return (MaterialApp(
+          theme: ThemeData(
+              primaryColor: Color(0xfff2291b),
+              accentColor: Colors.black.withOpacity(0.8),
+              fontFamily: 'Montserrat',
+              textTheme: TextTheme(
+                  headline: TextStyle(fontFamily: 'Montserrat'),
+                  title: TextStyle(fontFamily: 'Montserrat'),
+                  body1: TextStyle(fontFamily: 'Montserrat'),
+                  body2: TextStyle(fontFamily: 'Montserrat'))),
+          routes: <String, WidgetBuilder>{
+            '/': (context) => HomeScreen(),
+            '/main': (context) => MainScreen(),
+            '/signup': (context) => SignIn(),
+            '/profile': (context) => ProfileScreen()
+          }));
     }
   }
 }

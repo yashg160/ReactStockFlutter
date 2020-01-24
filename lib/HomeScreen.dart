@@ -16,7 +16,10 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Text(
               'ReactStock',
-              style: TextStyle(fontSize: 40, color: Colors.white),
+              style: TextStyle(
+                fontSize: 40,
+                color: Colors.white,
+              ),
             ),
             SizedBox(
               height: 12,
@@ -25,7 +28,10 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.only(left: 16, right: 16),
               child: Text(
                 'Share the world around you. Through pictures.',
-                style: TextStyle(fontSize: 22, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
