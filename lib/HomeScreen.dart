@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.8),
+          color: Theme.of(context).accentColor,
         ),
         child: Center(
             child: Column(
@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                   'SIGN IN',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-                color: Colors.red,
+                color: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40)),
                 elevation: 24,

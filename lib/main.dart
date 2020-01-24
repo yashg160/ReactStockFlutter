@@ -40,6 +40,10 @@ class AppState extends State<App> {
     if (isLoggedIn) {
       print('User Logged In');
       return (MaterialApp(
+        theme: ThemeData(
+          primaryColor: Color(0xfff2291b),
+          accentColor: Colors.black.withOpacity(0.8),
+        ),
         routes: <String, WidgetBuilder>{
           '/home': (context) => HomeScreen(),
           '/main': (context) => MainScreen(),
