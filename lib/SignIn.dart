@@ -144,25 +144,32 @@ class SignInState extends State<SignIn> {
           children: <Widget>[
             Text(
               'Please enter the email you used to register with us',
+              style: TextStyle(fontSize: 18, color: Colors.black54),
+              textAlign: TextAlign.left,
             ),
             Container(
-              margin: EdgeInsets.only(top: 64),
+              margin: EdgeInsets.only(top: 56),
               child: TextField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(hintText: 'Email'),
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 22),
                   controller: emailFieldController),
             ),
             Container(
-              margin: EdgeInsets.only(top: 32),
+              margin: EdgeInsets.only(top: 40),
+              width: 140,
+              height: 48,
               child: RaisedButton(
+                color: Theme.of(context).primaryColor,
                 autofocus: false,
                 clipBehavior: Clip.none,
                 child: Text(
                   'Sign In',
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-                elevation: 32,
+                elevation: 24,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
                 onPressed: () => handleSignIn(context),
               ),
             ),
