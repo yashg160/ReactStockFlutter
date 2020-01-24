@@ -93,6 +93,8 @@ class SignInState extends State<SignIn> {
     signInUser().then((user) => saveUserData(user)).then((response) {
       //User was found and data was saved to local storage. Move to the main screen
       print('Done');
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/main', ModalRoute.withName(null));
     }).catchError((error) {
       // Set the loading variable to false, to stop the modal from displaying. Then do the required error handling.
       setState(() {

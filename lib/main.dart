@@ -37,7 +37,14 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     if (isLoggedIn) {
-      return (MaterialApp(home: MainScreen()));
+      return (MaterialApp(
+        routes: <String, WidgetBuilder>{
+          '/home': (context) => HomeScreen(),
+          '/main': (context) => MainScreen(),
+          '/signup': (context) => SignIn()
+        },
+        home: MainScreen(),
+      ));
     } else {
       return (MaterialApp(routes: <String, WidgetBuilder>{
         '/main': (context) => MainScreen(),

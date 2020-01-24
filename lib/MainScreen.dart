@@ -141,17 +141,26 @@ class MainScreenState extends State<MainScreen> {
     CustomPopupMenu(title: 'Sign Out', action: 'ACTION_SIGN_OUT'),
   ];
 
-  void _select(CustomPopupMenu choice) {
+  signUserOut(CustomPopupMenu choice, BuildContext context) async {
     if (choice.action == 'ACTION_SIGN_OUT') {
-      /* final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       await prefs.remove('USER_ID');
       await prefs.remove('USER_IMAGE');
       await prefs.remove('USER_GIVEN_NAME');
-      await prefs.remove('USER_FAMILY_NAME'); */
+      await prefs.remove('USER_FAMILY_NAME');
 
       print(choice.action);
+      return 'DONE';
     }
+  }
+
+  void _handleChoiceSelect(CustomPopupMenu choice, BuildContext context) {
+    this.signUserOut(choice, context).then((status) {
+      Navigator.popAndPushNamed(context, '/home');
+    }).catchError((error) {
+      print(error.toString());
+    });
   }
 
   @override
@@ -200,7 +209,8 @@ class MainScreenState extends State<MainScreen> {
                     elevation: 4,
                     onCanceled: () => print('Selection cancelled'),
                     tooltip: 'This is the tooltip',
-                    onSelected: _select,
+                    onSelected: (choice) =>
+                        _handleChoiceSelect(choice, context),
                     itemBuilder: (BuildContext contextSome) {
                       return choices.map((CustomPopupMenu choice) {
                         return PopupMenuItem<CustomPopupMenu>(
