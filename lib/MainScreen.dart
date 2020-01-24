@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'dart:typed_data';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Picture {
   String title;
@@ -41,7 +42,7 @@ class MainScreenState extends State<MainScreen> {
   bool _error = false;
   String _errMessage = '';
   List _pictures = [];
-  CustomPopupMenu _selectedChoice;
+  CustomPopupMenu _choice;
 
   _getPictures() async {
     var response = await http.get('http://10.102.113.91:8000/picture?num=10');
@@ -141,9 +142,16 @@ class MainScreenState extends State<MainScreen> {
   ];
 
   void _select(CustomPopupMenu choice) {
-    setState(() {
-      _selectedChoice = choice;
-    });
+    if (choice.action == 'ACTION_SIGN_OUT') {
+      /* final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      await prefs.remove('USER_ID');
+      await prefs.remove('USER_IMAGE');
+      await prefs.remove('USER_GIVEN_NAME');
+      await prefs.remove('USER_FAMILY_NAME'); */
+
+      print(choice.action);
+    }
   }
 
   @override
@@ -190,7 +198,6 @@ class MainScreenState extends State<MainScreen> {
                 actions: <Widget>[
                   PopupMenuButton<CustomPopupMenu>(
                     elevation: 4,
-                    initialValue: choices[0],
                     onCanceled: () => print('Selection cancelled'),
                     tooltip: 'This is the tooltip',
                     onSelected: _select,
