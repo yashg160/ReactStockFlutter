@@ -164,6 +164,10 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
+  handleLoadMore(BuildContext context) {
+    print('Load More Pressed');
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_error) {
@@ -260,6 +264,27 @@ class MainScreenState extends State<MainScreen> {
                       );
                     }).toList(),
                   ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Container(
+                    height: 48,
+                    padding: EdgeInsets.only(right: 96, left: 96),
+                    child: RaisedButton(
+                      onPressed: () => handleLoadMore(context),
+                      child: Text(
+                        'LOAD MORE',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.white),
+                      ),
+                      color: Theme.of(context).primaryColor,
+                      elevation: 16,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40)),
+                    ),
+                  )
                 ],
               ),
             ),
