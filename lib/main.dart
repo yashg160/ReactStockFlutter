@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:react_stock_flutter/MainScreen.dart';
 import 'package:react_stock_flutter/SignIn.dart';
 import 'package:react_stock_flutter/HomeScreen.dart';
+import 'package:react_stock_flutter/ProfileScreen.dart';
 
 void main() => runApp(App());
 
@@ -41,14 +42,16 @@ class AppState extends State<App> {
         routes: <String, WidgetBuilder>{
           '/home': (context) => HomeScreen(),
           '/main': (context) => MainScreen(),
-          '/signup': (context) => SignIn()
+          '/signup': (context) => SignIn(),
+          '/profile': (context) => ProfileScreen()
         },
         home: MainScreen(),
       ));
     } else {
       return (MaterialApp(routes: <String, WidgetBuilder>{
         '/main': (context) => MainScreen(),
-        '/signup': (context) => SignIn()
+        '/signup': (context) => SignIn(),
+        '/profile': (context) => ProfileScreen()
       }, home: HomeScreen()));
     }
   }

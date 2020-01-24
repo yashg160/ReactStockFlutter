@@ -42,7 +42,6 @@ class MainScreenState extends State<MainScreen> {
   bool _error = false;
   String _errMessage = '';
   List _pictures = [];
-  CustomPopupMenu _choice;
 
   _getPictures() async {
     var response = await http.get('http://10.102.113.91:8000/picture?num=10');
@@ -139,28 +138,31 @@ class MainScreenState extends State<MainScreen> {
 
   List<CustomPopupMenu> choices = <CustomPopupMenu>[
     CustomPopupMenu(title: 'Sign Out', action: 'ACTION_SIGN_OUT'),
+    CustomPopupMenu(title: 'My Profile', action: 'ACTION_PROFILE')
   ];
 
   signUserOut(CustomPopupMenu choice, BuildContext context) async {
-    if (choice.action == 'ACTION_SIGN_OUT') {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.remove('USER_ID');
-      await prefs.remove('USER_IMAGE');
-      await prefs.remove('USER_GIVEN_NAME');
-      await prefs.remove('USER_FAMILY_NAME');
+    await prefs.remove('USER_ID');
+    await prefs.remove('USER_IMAGE');
+    await prefs.remove('USER_GIVEN_NAME');
+    await prefs.remove('USER_FAMILY_NAME');
 
-      print(choice.action);
-      return 'DONE';
-    }
+    print(choice.action);
+    return 'DONE';
   }
 
   void _handleChoiceSelect(CustomPopupMenu choice, BuildContext context) {
-    this.signUserOut(choice, context).then((status) {
-      Navigator.popAndPushNamed(context, '/home');
-    }).catchError((error) {
-      print(error.toString());
-    });
+    if (choice.action == 'ACTION_SIGN_OUT') {
+      this.signUserOut(choice, context).then((status) {
+        Navigator.popAndPushNamed(context, '/home');
+      }).catchError((error) {
+        print(error.toString());
+      });
+    } else if (choice.action == 'ACTION_PROFILE') {
+      Navigator.pushNamed(context, '/profile');
+    }
   }
 
   @override
