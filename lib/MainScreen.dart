@@ -101,15 +101,13 @@ class MainScreenState extends State<MainScreen> {
         _errMessage = 'ERR_NO_PICTURES';
         throw Exception('ERR_NO_PICTURES');
       }
-      print('Picture length: ${pictures.length}');
       _getImagesFromBase64(pictures);
     }).then((finalPictures) {
       setState(() {
         _loading = false;
         _error = false;
       });
-      print('Pictures set in state');
-      print('Length of pictures in state: ${_pictures.length}');
+      print('Pictures Retrieved');
     }).catchError((error) {
       setState(() {
         _loading = false;
@@ -155,8 +153,9 @@ class MainScreenState extends State<MainScreen> {
 
   void _handleChoiceSelect(CustomPopupMenu choice, BuildContext context) {
     if (choice.action == 'ACTION_SIGN_OUT') {
-      this.signUserOut(choice, context).then((status) {
-        Navigator.popAndPushNamed(context, '/');
+      signUserOut(choice, context).then((status) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/home', ModalRoute.withName(null));
       }).catchError((error) {
         print(error.toString());
       });
