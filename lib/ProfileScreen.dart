@@ -112,7 +112,12 @@ class ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 12,
                     ),
-                    Text('Some Description'),
+                    Text(
+                      _userId == null
+                          ? '@someone'
+                          : '@${_userId.split('@')[0]}',
+                      style: TextStyle(color: Colors.grey, fontSize: 18),
+                    ),
                     SizedBox(
                       height: 24,
                     ),
