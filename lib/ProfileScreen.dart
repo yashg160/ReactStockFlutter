@@ -56,7 +56,6 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     handleGetUserData();
   }
