@@ -163,7 +163,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         height: 24,
                       ),
                       Text(
-                        'N',
+                        '4',
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
