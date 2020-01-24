@@ -61,105 +61,148 @@ class ProfileScreenState extends State<ProfileScreen> {
     handleGetUserData();
   }
 
+  void _showToast(BuildContext context, String message) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: new Text(message),
+        action: SnackBarAction(
+            label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return (Scaffold(
-      body: Builder(
-        builder: (context) => ModalProgressHUD(
-          inAsyncCall: _loading,
-          opacity: 0.95,
-          progressIndicator: CircularProgressIndicator(),
-          child: Scaffold(
-              body: Scaffold(
-                  body: Stack(
+    if (_error) {
+      _showToast(context, 'An error occurred');
+      return (Scaffold(
+        appBar: AppBar(
+          title: Text('Profile'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ClipPath(
-                child: Container(
-                  color: Colors.black.withOpacity(0.8),
+              Container(
+                child: RaisedButton(
+                  child: Text('RETRY'),
+                  autofocus: false,
+                  clipBehavior: Clip.none,
+                  elevation: 24,
+                  onPressed: () {
+                    print('Retry Pressed');
+                  },
                 ),
-                clipper: GetClipper(),
               ),
-              Positioned(
-                width: MediaQuery.of(context).size.width,
-                top: MediaQuery.of(context).size.height / 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            image: DecorationImage(
-                                image: NetworkImage(_userImageUrl == null
-                                    ? 'https://via.placeholder.com/150'
-                                    : _userImageUrl),
-                                fit: BoxFit.cover),
-                            borderRadius: BorderRadius.all(Radius.circular(75)),
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 20,
-                                  color: Colors.black.withAlpha(75),
-                                  spreadRadius: 8)
-                            ])),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Text(
-                      '${_userGivenName} ${_userFamilyName}',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      _userId == null
-                          ? '@someone'
-                          : '@${_userId.split('@')[0]}',
-                      style: TextStyle(color: Colors.grey, fontSize: 18),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      'N',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text('PICTURES'),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    Container(
-                      height: 56,
-                      width: 180,
-                      child: RaisedButton(
-                        onPressed: () => print('Button Pressed'),
-                        child: Text(
-                          'VIEW GALLERY',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: Colors.white),
-                        ),
-                        color: Colors.red,
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            side: BorderSide(color: Colors.red)),
-                      ),
-                    )
-                  ],
-                ),
+              Container(
+                child: Text('An error occurred. Please try again.'),
               )
             ],
-          ))),
+          ),
         ),
-      ),
-    ));
+      ));
+    } else {
+      return (Scaffold(
+        body: Builder(
+          builder: (context) => ModalProgressHUD(
+            inAsyncCall: _loading,
+            opacity: 0.95,
+            progressIndicator: CircularProgressIndicator(),
+            child: Scaffold(
+                body: Scaffold(
+                    body: Stack(
+              children: <Widget>[
+                ClipPath(
+                  child: Container(
+                    color: Colors.black.withOpacity(0.8),
+                  ),
+                  clipper: GetClipper(),
+                ),
+                Positioned(
+                  width: MediaQuery.of(context).size.width,
+                  top: MediaQuery.of(context).size.height / 5,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              image: DecorationImage(
+                                  image: NetworkImage(_userImageUrl == null
+                                      ? 'https://via.placeholder.com/150'
+                                      : _userImageUrl),
+                                  fit: BoxFit.cover),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(75)),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 20,
+                                    color: Colors.black.withAlpha(75),
+                                    spreadRadius: 8)
+                              ])),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Text(
+                        '$_userGivenName $_userFamilyName',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        _userId == null
+                            ? '@someone'
+                            : '@${_userId.split('@')[0]}',
+                        style: TextStyle(color: Colors.grey, fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Text(
+                        'N',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text('PICTURES'),
+                      SizedBox(
+                        height: 32,
+                      ),
+                      Container(
+                        height: 56,
+                        width: 180,
+                        child: RaisedButton(
+                          onPressed: () => print('Button Pressed'),
+                          child: Text(
+                            'VIEW GALLERY',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.white),
+                          ),
+                          color: Colors.red,
+                          elevation: 12,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              side: BorderSide(color: Colors.red)),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ))),
+          ),
+        ),
+      ));
+    }
   }
 }
 
