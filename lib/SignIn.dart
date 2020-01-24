@@ -153,6 +153,7 @@ class SignInState extends State<SignIn> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(hintText: 'Email'),
                   style: TextStyle(fontSize: 22),
+                  textAlign: TextAlign.center,
                   controller: emailFieldController),
             ),
             Container(
