@@ -44,7 +44,7 @@ class MainScreenState extends State<MainScreen> {
   List _pictures = [];
 
   _getPictures() async {
-    var response = await http.get('http://10.102.113.91:8000/picture?num=10');
+    var response = await http.get('http://10.102.113.91:8000/picture?num=2');
 
     if (response.statusCode == 200) {
       // If everything is correct, convert the data to json and check for error
@@ -164,10 +164,6 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  handleLoadMore(BuildContext context) {
-    print('Load More Pressed');
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_error) {
@@ -271,7 +267,7 @@ class MainScreenState extends State<MainScreen> {
                     height: 48,
                     padding: EdgeInsets.only(right: 96, left: 96),
                     child: RaisedButton(
-                      onPressed: () => handleLoadMore(context),
+                      onPressed: () => _handleGetPictures(),
                       child: Text(
                         'LOAD MORE',
                         style: TextStyle(
