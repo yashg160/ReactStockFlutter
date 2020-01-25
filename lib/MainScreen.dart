@@ -4,6 +4,7 @@ import 'dart:convert' as convert;
 import 'dart:typed_data';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:react_stock_flutter/Arguments.dart';
 
 class Picture {
   String title;
@@ -23,21 +24,6 @@ class Picture {
 
   getId() {
     return this.id;
-  }
-}
-
-class Arguments {
-  String title;
-  Uint8List bytes;
-
-  Arguments({this.title, this.bytes});
-
-  getTitle() {
-    return this.title;
-  }
-
-  getContent() {
-    return this.bytes;
   }
 }
 
@@ -182,8 +168,10 @@ class MainScreenState extends State<MainScreen> {
   handlePictureTap(BuildContext context, Picture picture) {
     print('Picture Tapped');
 
-    Navigator.of(context)
-        .pushNamed('/picture', arguments: picture.getContent());
+    Arguments args =
+        new Arguments(title: picture.getTitle(), bytes: picture.getContent());
+
+    Navigator.of(context).pushNamed('/picture', arguments: args);
   }
 
   @override
