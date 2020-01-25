@@ -115,7 +115,10 @@ class ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 ClipPath(
                   child: Container(
-                    color: Colors.black.withOpacity(0.8),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/home.jpg'),
+                            fit: BoxFit.cover)),
                   ),
                   clipper: GetClipper(),
                 ),
