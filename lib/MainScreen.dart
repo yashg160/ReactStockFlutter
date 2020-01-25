@@ -164,8 +164,11 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  handlePictureTap(BuildContext context) {
+  handlePictureTap(BuildContext context, Picture picture) {
     print('Picture Tapped');
+
+    Navigator.of(context)
+        .pushNamed('/picture', arguments: picture.getContent());
   }
 
   @override
@@ -240,7 +243,7 @@ class MainScreenState extends State<MainScreen> {
                   Column(
                     children: _pictures.map((picture) {
                       return InkWell(
-                          onTap: () => handlePictureTap(context),
+                          onTap: () => handlePictureTap(context, picture),
                           child: Container(
                             margin: EdgeInsets.only(bottom: 16),
                             child: Column(
