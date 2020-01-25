@@ -8,15 +8,24 @@ class PictureScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Arguments args = ModalRoute.of(context).settings.arguments;
     final Uint8List picture = args.getContent();
+    final String title = args.getTitle();
 
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
-      body: Center(
-        child: Image.memory(
-          picture,
-          fit: BoxFit.contain,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          title: Text(
+            '$title',
+            style: TextStyle(fontSize: 24),
+          ),
         ),
-      ),
-    );
+        backgroundColor: Theme.of(context).accentColor,
+        body: Center(
+          child: Image.memory(
+            picture,
+            fit: BoxFit.contain,
+          ),
+        ));
   }
 }
