@@ -164,6 +164,10 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
+  handlePictureTap(BuildContext context) {
+    print('Picture Tapped');
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_error) {
@@ -231,33 +235,35 @@ class MainScreenState extends State<MainScreen> {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                     ),
-                    margin: EdgeInsets.only(left: 10, top: 20),
+                    margin: EdgeInsets.only(left: 10, top: 20, bottom: 20),
                   ),
                   Column(
                     children: _pictures.map((picture) {
-                      return Container(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: 280,
-                              width: MediaQuery.of(context).size.width,
-                              child: Card(
-                                child: Image.memory(picture.getContent(),
-                                    fit: BoxFit.fill),
-                                elevation: 12,
-                                margin: EdgeInsets.only(top: 32),
-                              ),
+                      return InkWell(
+                          onTap: () => handlePictureTap(context),
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 16),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 280,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Card(
+                                    child: Image.memory(picture.getContent(),
+                                        fit: BoxFit.fill),
+                                    elevation: 12,
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(picture.getTitle(),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700)),
+                                  margin: EdgeInsets.only(top: 12, bottom: 16),
+                                ),
+                              ],
                             ),
-                            Container(
-                              child: Text(picture.getTitle(),
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700)),
-                              margin: EdgeInsets.only(top: 12),
-                            ),
-                          ],
-                        ),
-                      );
+                          ));
                     }).toList(),
                   ),
                   SizedBox(
