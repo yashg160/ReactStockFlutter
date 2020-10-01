@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                     height: 12,
                   ),
                   Text(
-                    'Share the world around you. Through pictures.',
+                    'The world around is interesting. Share it through pictures',
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.white,
